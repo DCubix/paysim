@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: Payment Simulator - PaySim
+  version: '1.0'
+  contact:
+    email: diego95lopes@gmail.com
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: payment
+    description: Compras de produtos
+  - name: selic
+    description: Consultas da taxa SELIC
+paths:
+  /payment/pay:
+    post:
+      tags:
+        - payment
+      summary: Compra de produto
+      description: Realiza a compra de um produto com suporte a entrada e parcelas com acréscimo de juros de acordo com a taxa SELIC.
+      requestBody:
+        description: Informações de pagamento
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPayload'
+        required: true
+      responses:
+        '200':
+          description: Lista de parcelas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InstallmentDefinition"
+        '400':
+          description: Se a entrada for maior que o preço
+  /selic/current:
+    get:
+      tags:
+        - selic
+      summary: Consultar taxa SELIC atual
+      responses:
+        '200':
+          description: Taxa SELIC atual
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SELICTax"
+  /selic/accumulated:
+    get:
+      tags:
+        - selic
+      summary: Consultar taxa SELIC acumulada nos ultimos 30 dias
+      responses:
+        '200':
+          description: Taxa selic acumulada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SELICAccum"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 123
+        name:
+          type: string
+          example: Shoe
+        price:
+          type: number
+          example: 123.45
+    Payment:
+      type: object
+      properties:
+        entry:
+          type: number
+          example: 123.45
+        installments:
+          type: integer
+          example: 4
+    PaymentPayload:
+      type: object
+      properties:
+        payment:
+          $ref: '#/components/schemas/Payment'
+        product:
+          $ref: '#/components/schemas/Product'
+    InstallmentDefinition:
+      type: object
+      properties:
+        installmentNum:
+          type: integer
+          example: 1
+        price:
+          type: number
+          example: 123.45
+        tax:
+          type: number
+          example: 12.3
+    SELICTax:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          example: '01/03/2020'
+        value:
+          type: number
+          example: 0.045
+    SELICAccum:
+      type: object
+      properties:
+        value:
+          type: number
+          example: 0.045
