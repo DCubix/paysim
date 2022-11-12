@@ -8,22 +8,23 @@ import java.util.List;
 import java.util.Map;
 
 import com.diegolopes.paysim.Util;
+import com.diegolopes.paysim.model.SELICTax;
 
-public class SELIC {
+public class SELICTaxService {
     
     private static final String template =
         "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json&dataInicial=%s&dataFinal=%s";
     private static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public static double current() {
+    public static SELICTax current() {
         final Date date = Calendar.getInstance().getTime();
         final String url = String.format(template, dateFormat.format(date), dateFormat.format(date));
         final Util.Response<List<Map<String, Object>>> dat = Util.httpGetJSON(url);
         if (dat != null && dat.getCode() == 200 && dat.getData().size() > 0) {
             final String valStr = (String) dat.getData().get(0).get("valor");
-            return Double.parseDouble(valStr);
+            return new SELICTax((String) dat.getData().get(0).get("data"), Double.parseDouble(valStr));
         }
-        return 0.0;
+        return null;
     }
 
     public static double accumulated30Days() {
