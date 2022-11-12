@@ -1,12 +1,10 @@
 package com.diegolopes.paysim;
 
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import com.diegolopes.paysim.services.SELIC;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 public class SELICTest {

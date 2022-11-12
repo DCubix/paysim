@@ -5,6 +5,12 @@ public class InstallmentDefinition {
     private int installmentNum;
     private double price, tax;
     
+    public InstallmentDefinition(int installmentNum, double price, double tax) {
+        this.installmentNum = installmentNum;
+        this.price = price;
+        this.tax = tax;
+    }
+
     public int getInstallmentNum() {
         return installmentNum;
     }
