@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.diegolopes.paysim.Util;
+import com.diegolopes.paysim.HttpUtil;
 import com.diegolopes.paysim.model.SELICTax;
 
 public class SELICTaxService {
@@ -19,7 +19,7 @@ public class SELICTaxService {
     public static SELICTax current() {
         final Date date = Calendar.getInstance().getTime();
         final String url = String.format(template, dateFormat.format(date), dateFormat.format(date));
-        final Util.Response<List<Map<String, Object>>> dat = Util.httpGetJSON(url);
+        final HttpUtil.Response<List<Map<String, Object>>> dat = HttpUtil.httpGetJSON(url);
         if (dat != null && dat.getCode() == 200 && dat.getData().size() > 0) {
             final String valStr = (String) dat.getData().get(0).get("valor");
             return new SELICTax((String) dat.getData().get(0).get("data"), Double.parseDouble(valStr));
@@ -45,7 +45,7 @@ public class SELICTaxService {
         );
 
         final String url = String.format(template, dateFormat.format(from.getTime()), dateFormat.format(to.getTime()));
-        final Util.Response<List<Map<String, Object>>> dat = Util.httpGetJSON(url);
+        final HttpUtil.Response<List<Map<String, Object>>> dat = HttpUtil.httpGetJSON(url);
         if (dat != null && dat.getCode() == 200) {
             double accum = 0.0;
             for (Map<String, Object> entry : dat.getData()) {
