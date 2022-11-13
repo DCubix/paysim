@@ -27,7 +27,13 @@ paths:
         required: true
       responses:
         '200':
-          description: Lista de parcelas
+          description: |-
+            Lista de parcelas.
+            
+            O primeiro item da lista com o valor `installmentNum` igual a 0 é retornado se alguma entrada 
+            `entry` foi especificada. Neste caso, o valor parcelado será o valor do produto menos o valor da entrada.
+
+            > As parcelas sempre começam com `installmentNum` em 1.
           content:
             application/json:
               schema:
