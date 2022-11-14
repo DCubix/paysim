@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -63,6 +64,12 @@ public class HttpUtil {
         }
 
         return new Response<T>(400, null);
+    }
+
+    public static <T> JSONObject basicMessage(String key, T value) {
+        final JSONObject obj = new JSONObject();
+        obj.put(key, value);
+        return obj;
     }
 
 }

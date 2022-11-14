@@ -1,8 +1,6 @@
 package com.diegolopes.paysim.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +18,8 @@ public class SELICController {
     }
 
     @GetMapping("/accumulated")
-    public Map<String, Object> getAccumulated() {
-        Map<String, Object> map = new HashMap<>();
+    public JSONObject getAccumulated() {
+        final JSONObject map = new JSONObject();
         map.put("value", SELICTaxService.accumulated30Days());
         return map;
     }
